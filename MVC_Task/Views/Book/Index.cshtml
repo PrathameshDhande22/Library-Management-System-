@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Books>
+@{
+    ViewBag.Title = "Browse Books";
+
+    int pageno = ViewBag.Pageno;
+
+    List<SelectListItem> sortings = new List<SelectListItem>()
+{
+        new SelectListItem(){Text="A to Z",Value=1.ToString()},
+        new SelectListItem(){Text="Z to A",Value=2.ToString()},
+        new SelectListItem(){Text="Newest",Value=3.ToString()},
+        new SelectListItem(){Text="Oldest",Value=4.ToString()},
+        new SelectListItem(){Text="Publication Year Newest",Value=5.ToString()},
+        new SelectListItem(){Text="Publication Year Oldest",Value=6.ToString()}
+    };
+
+    int categoryby = 0;
+    int sort = 0;
+    string name = "";
+    string title = "";
+
+    int.TryParse(Request.QueryString["sort"], out sort);
+    int.TryParse(Request.QueryString["categoryby"], out categoryby);
+    name = Request.QueryString["name"]?.ToString() ?? string.Empty;
+    title = Request.QueryString["booktitle"]?.ToString() ?? string.Empty;
+
+}
+
+<h2>
+    <span class="glyphicon glyphicon-list font-28 padding-right-8 "></span>
+    Browse Books
+</h2>
+<hr />
+
+@using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "book-browse-filter margin-top-10 padding-bottom-10" }))
+{
+    <span class="font-bold">Filters : </span>
+    <div class="d-flex align-item-end select-none flex-wrap">
+        <div class="input-group">
+            <div class="input-group-addon">
+                <span>Category</span>
+            </div>
+            @Html.DropDownList("categoryby", (IEnumerable<SelectListItem>)ViewBag.Category, "All", new { @class = "category-filter form-control" })
+        </div>
+        <div class="input-group">
+            <div class="input-group-addon">
+                <span>Sort</span>
+            </div>
+            @Html.DropDownList("sort", sortings, "Sort By", new { @class = "form-control" })
+        </div>
+        <div class="input-group">
+            <div class="input-group-addon">
+                <span><span class="glyphicon glyphicon-search padding-right-4"></span> Author Name</span>
+            </div>
+            @Html.TextBox("name", "", new { @class = "form-control", placeholder = "Enter Author Name" })
+        </div>
+        <div class="input-group">
+            <div class="input-group-addon">
+                <span><span class="glyphicon glyphicon-search padding-right-4"></span> Book Title</span>
+            </div>
+            @Html.TextBox("booktitle", "", new { @class = "form-control", placeholder = "Enter Book Title" })
+        </div>
+        <div class="text-center" style="width:100%;">
+            <button class="btn btn-success" type="submit">Apply Filters</button>
+            @Html.ActionLink("Clear Filters", "Index", "Book", null, new { role = "button", @class = "btn btn-default" })
+        </div>
+    </div>
+
+}
+
+@Html.Partial("_BrowseBook", Model)
+<strong>Total Records : <span class="issued-records">@ViewData["records"].ToString()</span></strong>
+
+@if (Convert.ToInt32(ViewData["records"].ToString()) > 12)
+{
+    <nav>
+        <ul class="pager">
+            <li class="@(pageno <= 1 ? "disabled" : null) prev-page-btn">
+                @if (pageno <= 1)
+                {
+                    <span class="select-none">Prev</span>
+                }
+                else
+                {
+                    @Html.ActionLink("Prev", "Index", "Book", new { pageno = pageno - 1, categoryby = categoryby, sort = sort, name = name, booktitle = title }, new { @class = "" })
+                }
+            </li>
+            <li class="@(pageno >= ViewBag.TotalPages ? "disabled" : null) next-page-btn">
+                @if (pageno >= ViewBag.TotalPages)
+                {
+                    <span class="select-none">Next</span>
+                }
+                else
+                {
+                    @Html.ActionLink("Next", "Index", "Book", new { pageno = pageno + 1, categoryby = categoryby, sort = sort, name = name, booktitle = title }, new { })
+                }
+            </li>
+        </ul>
+    </nav>
+}

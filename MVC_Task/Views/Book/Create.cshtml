@@ -1,0 +1,15 @@
+﻿@model MVC_Task.Models.Books
+
+@{
+    ViewBag.Title = Convert.ToBoolean(Session["toupdate"]?.ToString() ?? "false") ? "Edit Book" : "Create Book";
+}
+
+
+<div>
+    @Html.Partial("_CreateBook", Model)
+</div>
+
+
+<div>
+    @Html.Partial("_ListBook", Model.BookList.AsEnumerable())
+</div>

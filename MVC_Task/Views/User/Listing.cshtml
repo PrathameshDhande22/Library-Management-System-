@@ -1,0 +1,122 @@
+﻿@model IEnumerable<User>
+
+@{
+    ViewBag.Title = "Listing";
+    Dictionary<string, string> colors = new Dictionary<string, string> { { "Admin", "danger" }, { "User", "success" }, { "Librarian", "info" } };
+}
+
+<h2>
+    <span class="glyphicon glyphicon-th-list font-28"></span>
+    Users
+</h2>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "filter-form" }))
+{
+    <div class="form-group">
+        <strong>Filter by Role:</strong>
+        @Html.DropDownList("role", new List<SelectListItem>() { new SelectListItem() { Text = "Admin", Value = "Admin" }, new SelectListItem() { Text = "User", Value = "User" }, new SelectListItem() { Text = "Librarian", Value = "Librarian" } }, "All", new { @class = "form-control list-filter" })
+    </div>
+}
+
+<table class="table table-hover table-responsive table-bordered">
+    <thead>
+        <tr class="dark">
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Roles.RoleName)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr class="danger">
+                <td colspan="8" class="text-center">
+                    No Rows Found
+                </td>
+            </tr>
+        }
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td class="@(colors[item.Roles.RoleName]) font-bold text-center">
+                    @Html.DisplayFor(modelItem => item.Roles.RoleName)
+                </td>
+                <td class="text-center">
+                    @if (item.IsDeleted)
+                    {
+                        <span class="label label-danger">Deleted</span>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Edit  ", "Edit", new { userid = item.Id }, new { @class = "btn btn-primary btn-sm edit-btn", title = "Edit" })
+                        <button type="button" class="btn btn-danger btn-sm delete-btn" data-userid="@item.Id" data-username="@item.Username" title="Delete">Delete  <span class="glyphicon glyphicon-trash"></span></button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<strong>Total Records : @Model.Count()</strong>
+
+<div>
+
+</div>
+
+<div class="modal fade listing-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Confirmation ?</h4>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete user with <b>user id</b> as <span id="userid"></span> and <b>Username</b> as <span id="username"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success modal-yes-btn">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

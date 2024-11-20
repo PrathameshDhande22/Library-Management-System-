@@ -1,0 +1,16 @@
+﻿@{
+    Alert alert = new Alert();
+    if (ViewData.ContainsKey("Message"))
+    {
+        alert = (Alert)ViewData["Message"];
+    }
+    else if (TempData.ContainsKey("Message"))
+    {
+        alert = (Alert)TempData["Message"];
+    }
+}
+
+<div class="alert alert-@(alert.BsStatus) alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    @alert.Message.
+</div>

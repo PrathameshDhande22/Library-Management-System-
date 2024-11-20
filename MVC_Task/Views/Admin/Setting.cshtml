@@ -1,0 +1,54 @@
+﻿@model MVC_Task.Models.LibrarySetting
+
+@{
+    ViewBag.Title = "Setting";
+}
+
+<h2>
+    <span class="glyphicon glyphicon-cog font-28"></span>
+    Library Setting
+</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <span class="" style="float:right;"><i class="text-danger">*</i> Fields are Required</span>
+        <br />
+        @Html.HiddenFor(model => model.SettingId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaxIssueDays, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaxIssueDays, new { htmlAttributes = new { @class = "form-control", @min = 2 } })
+                @Html.ValidationMessageFor(model => model.MaxIssueDays, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DailyFineAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-addon">₹</span>
+                    @Html.EditorFor(model => model.DailyFineAmount, new { htmlAttributes = new { @class = "form-control", @min = 2 } })
+                </div>
+                @Html.ValidationMessageFor(model => model.DailyFineAmount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaxBookPerUser, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaxBookPerUser, new { htmlAttributes = new { @class = "form-control", @min = 2 } })
+                @Html.ValidationMessageFor(model => model.MaxBookPerUser, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}

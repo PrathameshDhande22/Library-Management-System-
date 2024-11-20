@@ -1,0 +1,112 @@
+﻿@using MVC_Task.Repository;
+
+@{
+    string actionname = ViewContext.RouteData.Values["action"].ToString();
+    string username = "";
+    if (User.Identity.IsAuthenticated)
+    {
+        username = Request.Cookies["details"].Value.ToString();
+    }
+
+}
+
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid bg-yellow">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.Action("Index","Book")">
+                    <div class="nav-logo">
+                        <span>Lib <span class="pg-logo">MS</span></span>
+                        <span class="text-uppercase">Library Management System</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                </ul>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Admin"))
+                    {
+                        <p class="navbar-text">
+                            <span class="label label-primary select-none">Admin</span>
+                        </p>
+                    }
+                    else if (User.IsInRole("Librarian"))
+                    {
+                        <p class="navbar-text">
+                            <span class="label label-primary select-none">Librarian</span>
+                        </p>
+                    }
+                }
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="@(actionname=="Index"?"active":null)">
+                        @Html.ActionLink("Browse Books", "Index", "Book")
+                    </li>
+                    @if (User.IsInRole("User"))
+                    {
+                        <li class="@(actionname=="Dashboard"?"active":null)">
+                            @Html.ActionLink("My Issued Books", "Dashboard", "User")
+                            <span id="total-issued" class="badge"></span>
+                        </li>
+                    }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li class="@(actionname=="Login"?"active":null)">@Html.ActionLink("Login", "Login", "Auth")</li>
+                        <li class="@(actionname=="Register"?"active":null)">@Html.ActionLink("Register", "Register", "Auth")</li>
+                    }
+                    else
+                    {
+                        @*<li class="">
+                                @Html.ActionLink("Dashboard", "Dashboard", "User")
+                            </li>*@
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li class="@(actionname=="Listing"||actionname=="Edit"?"active":null)">@Html.ActionLink("Users", "Listing", "User")</li>
+                        }
+                        if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
+                        {
+                            <li class="@(actionname=="Create"?"active":null)">@Html.ActionLink("Manage Books", "Create", "Book", new { id = (object)null }, null)</li>
+                            <li class="@(actionname=="Dashboard"?"active":null)">
+                                @Html.ActionLink("Dashboard", "Dashboard", "User")
+                            </li>
+                        }
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-user"></span> Hello @username <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Profile", "Profile", "User", null, new { @class = "profile-header-link" })</li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li>@Html.ActionLink("Library Setting", "Setting", "Admin", null, new { @class = "setting-header-link" })</li>
+                                }
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    @using (Html.BeginForm("LogOut", "Auth", FormMethod.Post, new { @class = "cursor-pointer logout-form" }))
+                                    {
+                                        <button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-log-out pull-left"></span>  Logout</button>
+                                    }
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+
+
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>

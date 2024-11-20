@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Books>
+
+<div class="row">
+    @if (Model.Count() == 0)
+    {
+        <div class="text-center" style="margin-top:30px;">
+            <span class="glyphicon glyphicon-remove font-34 text-danger" style="font-size:40px;"></span>
+            <div class="font-34 font-bold text-danger padding-top-10">
+                No Books Available !
+            </div>
+        </div>
+    }
+    else
+    {
+        foreach (Books book in Model)
+        {
+            <div class="col-xs-12 col-sm-6 col-md-3 cols">
+                <div class="book-wrapper">
+                    <a class="d-block book-link" href="@Url.Action("Details","Book",new {id=book.BookId})">
+                        <div class="image-wrapper text-center  padding-top-10">
+                            <img src="@Url.Content(book.CoverImage)" alt="@book.Title Image" />
+                        </div>
+                        <span class="font-bold font-16 d-block text-primary select-none padding-left-right-15">@book.Title</span>
+
+                        <div class="padding-left-right-15">
+                            <div class="padding-top-10">
+                                <span class="font-bold">@Html.DisplayNameFor(model => model.Isbn) :</span>
+                                <span>@book.Isbn</span>
+                            </div>
+                            <div>
+                                <span class="font-bold">@Html.DisplayNameFor(model => model.AuthorName) :</span>
+                                <span>@book.AuthorName</span>
+                            </div>
+                            <div>
+                                <span class="font-bold">@Html.DisplayNameFor(model => model.PublicationYear) : </span>
+                                <span>@book.PublicationYear</span>
+                            </div>
+                            <div>
+                                <span class="font-bold">@Html.DisplayNameFor(model => model.Category.CategoryName) :</span>
+                                <span class="label label-primary ">@book.Category.CategoryName</span>
+                            </div>
+                            <div class="font-16 padding-top-2">
+                                <span class="font-bold">@Html.DisplayNameFor(model => model.AvailableQty): </span>
+                                <span class="text-success font-bold">@book.AvailableQty</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="padding-left-right-15">
+                        <div class="padding-top-10 padding-bottom-10">
+
+                            @if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
+                            {
+                                <a href="@Url.Action("Details", "Book", new { id = book.BookId })" role="button" class="btn btn-primary btn-block font-bold"> <span class="glyphicon glyphicon-info-sign padding-right-4"></span> View Details</a>
+                            }
+
+                            else if (User.IsInRole("User") && book.IsIssued)
+                            {
+                                <a href="@Url.Action("Details", "Book", new { id = book.BookId })" role="button" class="btn btn-danger btn-block font-bold"> <span class="glyphicon glyphicon-send padding-right-4"></span> Return Book</a>
+                            }
+                            else
+                            {
+                                if (book.AvailableQty <= 0)
+                                {
+                                    <button class="btn btn-warning btn-block" style="cursor:not-allowed;" disabled><span class="glyphicon glyphicon-ban-circle padding-right-4"></span> Out of Stock</button>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Details", "Book", new { id = book.BookId })" role="button" class="btn btn-success btn-block font-bold"> <span class="glyphicon glyphicon-bookmark padding-right-4"></span> Issue Book</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
+

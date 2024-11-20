@@ -1,0 +1,164 @@
+﻿@model IEnumerable<Issues>
+
+@{
+    Dictionary<string, string> colors = new Dictionary<string, string> { { "Issued", "bg-success" }, { "Return", "bg-info" }, { "LateReturn", "bg-warning" }, { "DuePassed", "bg-danger" } };
+
+    string actionname = ViewContext.RouteData.Values["action"].ToString();
+}
+
+<table class="table table-bordered table-responsive table-hover padding-top-10">
+    <thead>
+        <tr class="dark">
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                Details
+            </th>
+            <th>
+                Fine Details
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr class="text-center">
+                <td class="text-danger bg-danger font-16 font-bold" colspan="5">No Issues Found !</td>
+            </tr>
+        }
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    <div>
+                        <a href="@Url.Action("Details","Book",new {id=item.BookId})">
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.BookId) :</span>
+                            <span>@Html.DisplayFor(model => item.BookId)</span>
+                            <span class="glyphicon glyphicon-new-window padding-left-8"></span>
+                        </a>
+                    </div>
+                    <div>
+                        <span class="font-bold">@Html.DisplayNameFor(model => model.Title) :</span>
+                        <span>@Html.DisplayFor(model => item.Title)</span>
+                    </div>
+                    @if (!User.IsInRole("User"))
+                    {
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.IssuedName) :</span>
+                            <span>@Html.DisplayFor(model => item.IssuedName)</span>
+                        </div>
+                    }
+                    <div>
+                        <span class="font-bold">@Html.DisplayNameFor(model => model.IssueDate) :</span>
+                        <span>@Html.DisplayFor(model => item.IssueDate)</span>
+                    </div>
+                    <div>
+                        <span class="font-bold">@Html.DisplayNameFor(model => model.DueDate) :</span>
+                        <span>@Html.DisplayFor(model => item.DueDate)</span>
+                    </div>
+                </td>
+                <td>
+                    @if (item.IssueStatus == IssueStatus.Return || item.IssueStatus == IssueStatus.LateReturn)
+                    {
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.ReturnedName) :</span>
+                            <span>@(String.IsNullOrWhiteSpace(item.ReturnedName)?User.IsInRole("User")?"You":"User":item.ReturnedName)</span>
+                        </div>
+                    }
+                    @if (item.IssueStatus == IssueStatus.LateReturn)
+                    {
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.DailyFineAmount) :</span>
+                            <span>₹ @Html.DisplayFor(model => item.DailyFineAmount)/day</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.ReturnedDate) :</span>
+                            <span>@Html.DisplayFor(model => item.ReturnedDate)</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">Fine Paid :</span>
+                            <span class="font-bold text-danger">₹ @Html.DisplayFor(model => item.FineAmount)</span>
+                        </div>
+                    }
+                    else if (item.IssueStatus == IssueStatus.Issued)
+                    {
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.DailyFineAmount) :</span>
+                            <span>₹ @Html.DisplayFor(model => item.DailyFineAmount)/day</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.ReturnDays) :</span>
+                            <span class="font-bold text-success">@Html.DisplayFor(model => item.ReturnDays) Days</span>
+                        </div>
+                    }
+                    else if (item.IssueStatus == IssueStatus.DuePassed)
+                    {
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.DailyFineAmount) :</span>
+                            <span>₹ @Html.DisplayFor(model => item.DailyFineAmount)/day</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.PassedDays) :</span>
+                            <span>@Html.DisplayFor(model => item.PassedDays) Days</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">Fine To Be Paid :</span>
+                            <span class="font-bold text-primary">₹ @Html.DisplayFor(model => item.ComputedFineAmount)</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.ReturnedDate) :</span>
+                            <span class="">@Html.DisplayFor(model => item.ReturnedDate)</span>
+                        </div>
+                    }
+                </td>
+                <td class="text-center @(colors[item.Status]) font-bold">
+                    @if (item.IssueStatus == IssueStatus.LateReturn)
+                    {
+                        <span>Late Return</span>
+                    }
+                    else if (item.IssueStatus == IssueStatus.DuePassed)
+                    {
+                        <span>Due Passed</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => item.Status)
+                    }
+                </td>
+                <td class="text-center">
+                    @if ((item.IssueStatus == IssueStatus.Issued || item.IssueStatus == IssueStatus.DuePassed) && !User.IsInRole("User"))
+                    {
+                        using (Html.BeginForm("ReturnBook", "Book", new { id = item.BookId, userid = item.UserId }, FormMethod.Post, new { @id = "library-return-book-form" }))
+                        {
+
+                            <button type="button" class="btn btn-primary btn-block lib-return-btn" data-title="@item.Title" data-issuername="@item.IssuedName">
+                                <span class="glyphicon glyphicon-send padding-right-8"></span> Return
+                            </button>
+                        }
+                    }
+                    else if (item.IssueStatus == IssueStatus.Issued || item.IssueStatus == IssueStatus.DuePassed)
+                    {
+                        <a role="button" href="@Url.Action("Details","Book",new {id=item.BookId})" class="btn btn-primary btn-block" data-title="@item.Title" data-issuername="@item.IssuedName">
+                            <span class="glyphicon glyphicon-send padding-right-8"></span> Return
+                        </a>
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<strong>Total Records : <span class="issued-records">@ViewData["records"].ToString()</span></strong>

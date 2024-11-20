@@ -1,0 +1,515 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{491E4240-3E2B-47CB-92DB-8FB21BAFA6DF}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MVC_Task</RootNamespace>
+    <AssemblyName>MVC_Task</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44329</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Dapper.2.1.35\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.Mvc.5.3.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.Razor.3.3.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.Web.Infrastructure.2.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filters\CheckLogedIn.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Connection.cs" />
+    <Compile Include="Models\Alert.cs" />
+    <Compile Include="Models\Books.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Issues.cs" />
+    <Compile Include="Models\LibrarySetting.cs" />
+    <Compile Include="Models\Roles.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UsernameEmailValidation.cs" />
+    <Compile Include="Models\ViewModels\BookDetailsViewModel.cs" />
+    <Compile Include="Models\ViewModels\ChangePasswordViewModel.cs" />
+    <Compile Include="Models\ViewModels\HistoryOfIssuedBooksViewModel.cs" />
+    <Compile Include="Models\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AdminRepository.cs" />
+    <Compile Include="Repository\BookRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="RoleProvider\UserRoles.cs" />
+    <Compile Include="Utils\Utilities.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\BookImages\book23.jpg" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\IntlInput\img\flags%402x.png" />
+    <Content Include="Content\IntlInput\img\flags.png" />
+    <Content Include="Content\IntlInput\img\globe%402x.png" />
+    <Content Include="Content\IntlInput\img\globe.png" />
+    <Content Include="Content\IntlInput\img\globe_light%402x.png" />
+    <Content Include="Content\IntlInput\img\globe_light.png" />
+    <Content Include="Content\IntlInput\intlTelInput.min.css" />
+    <Content Include="Content\intlTelInput.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\img\flags%402x.png" />
+    <Content Include="Content\img\flags.png" />
+    <Content Include="Content\img\globe%402x.png" />
+    <Content Include="Content\img\globe.png" />
+    <Content Include="Content\img\globe_light%402x.png" />
+    <Content Include="Content\img\globe_light.png" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\img\flags%402x.webp" />
+    <Content Include="Content\img\flags.webp" />
+    <Content Include="Content\img\globe%402x.webp" />
+    <Content Include="Content\img\globe.webp" />
+    <Content Include="Content\img\globe_light%402x.webp" />
+    <Content Include="Content\img\globe_light.webp" />
+    <Content Include="Content\IntlInput\img\flags%402x.webp" />
+    <Content Include="Content\IntlInput\img\flags.webp" />
+    <Content Include="Content\IntlInput\img\globe%402x.webp" />
+    <Content Include="Content\IntlInput\img\globe.webp" />
+    <Content Include="Content\IntlInput\img\globe_light%402x.webp" />
+    <Content Include="Content\IntlInput\img\globe_light.webp" />
+    <None Include="Scripts\jquery-3.7.1.intellisense.js" />
+    <Content Include="Scripts\Auth\Intelinput.js" />
+    <Content Include="Scripts\Auth\Login.js" />
+    <Content Include="Scripts\Book\CreateBook.js" />
+    <Content Include="Scripts\Book\Details.js" />
+    <Content Include="Scripts\i18n\ar\countries.js" />
+    <Content Include="Scripts\i18n\ar\index.js" />
+    <Content Include="Scripts\i18n\ar\interface.js" />
+    <Content Include="Scripts\i18n\bg\countries.js" />
+    <Content Include="Scripts\i18n\bg\index.js" />
+    <Content Include="Scripts\i18n\bg\interface.js" />
+    <Content Include="Scripts\i18n\bn\countries.js" />
+    <Content Include="Scripts\i18n\bn\index.js" />
+    <Content Include="Scripts\i18n\bn\interface.js" />
+    <Content Include="Scripts\i18n\bs\countries.js" />
+    <Content Include="Scripts\i18n\bs\index.js" />
+    <Content Include="Scripts\i18n\bs\interface.js" />
+    <Content Include="Scripts\i18n\ca\countries.js" />
+    <Content Include="Scripts\i18n\ca\index.js" />
+    <Content Include="Scripts\i18n\ca\interface.js" />
+    <Content Include="Scripts\i18n\cs\countries.js" />
+    <Content Include="Scripts\i18n\cs\index.js" />
+    <Content Include="Scripts\i18n\cs\interface.js" />
+    <Content Include="Scripts\i18n\de\countries.js" />
+    <Content Include="Scripts\i18n\de\index.js" />
+    <Content Include="Scripts\i18n\de\interface.js" />
+    <Content Include="Scripts\i18n\el\countries.js" />
+    <Content Include="Scripts\i18n\el\index.js" />
+    <Content Include="Scripts\i18n\el\interface.js" />
+    <Content Include="Scripts\i18n\en\countries.js" />
+    <Content Include="Scripts\i18n\en\index.js" />
+    <Content Include="Scripts\i18n\en\interface.js" />
+    <Content Include="Scripts\i18n\es\countries.js" />
+    <Content Include="Scripts\i18n\es\index.js" />
+    <Content Include="Scripts\i18n\es\interface.js" />
+    <Content Include="Scripts\i18n\fa\countries.js" />
+    <Content Include="Scripts\i18n\fa\index.js" />
+    <Content Include="Scripts\i18n\fa\interface.js" />
+    <Content Include="Scripts\i18n\fi\countries.js" />
+    <Content Include="Scripts\i18n\fi\index.js" />
+    <Content Include="Scripts\i18n\fi\interface.js" />
+    <Content Include="Scripts\i18n\fr\countries.js" />
+    <Content Include="Scripts\i18n\fr\index.js" />
+    <Content Include="Scripts\i18n\fr\interface.js" />
+    <Content Include="Scripts\i18n\hi\countries.js" />
+    <Content Include="Scripts\i18n\hi\index.js" />
+    <Content Include="Scripts\i18n\hi\interface.js" />
+    <Content Include="Scripts\i18n\hr\countries.js" />
+    <Content Include="Scripts\i18n\hr\index.js" />
+    <Content Include="Scripts\i18n\hr\interface.js" />
+    <Content Include="Scripts\i18n\hu\countries.js" />
+    <Content Include="Scripts\i18n\hu\index.js" />
+    <Content Include="Scripts\i18n\hu\interface.js" />
+    <Content Include="Scripts\i18n\id\countries.js" />
+    <Content Include="Scripts\i18n\id\index.js" />
+    <Content Include="Scripts\i18n\id\interface.js" />
+    <Content Include="Scripts\i18n\index.js" />
+    <Content Include="Scripts\i18n\it\countries.js" />
+    <Content Include="Scripts\i18n\it\index.js" />
+    <Content Include="Scripts\i18n\it\interface.js" />
+    <Content Include="Scripts\i18n\ja\countries.js" />
+    <Content Include="Scripts\i18n\ja\index.js" />
+    <Content Include="Scripts\i18n\ja\interface.js" />
+    <Content Include="Scripts\i18n\ko\countries.js" />
+    <Content Include="Scripts\i18n\ko\index.js" />
+    <Content Include="Scripts\i18n\ko\interface.js" />
+    <Content Include="Scripts\i18n\mr\countries.js" />
+    <Content Include="Scripts\i18n\mr\index.js" />
+    <Content Include="Scripts\i18n\mr\interface.js" />
+    <Content Include="Scripts\i18n\nl\countries.js" />
+    <Content Include="Scripts\i18n\nl\index.js" />
+    <Content Include="Scripts\i18n\nl\interface.js" />
+    <Content Include="Scripts\i18n\no\countries.js" />
+    <Content Include="Scripts\i18n\no\index.js" />
+    <Content Include="Scripts\i18n\no\interface.js" />
+    <Content Include="Scripts\i18n\pl\countries.js" />
+    <Content Include="Scripts\i18n\pl\index.js" />
+    <Content Include="Scripts\i18n\pl\interface.js" />
+    <Content Include="Scripts\i18n\pt\countries.js" />
+    <Content Include="Scripts\i18n\pt\index.js" />
+    <Content Include="Scripts\i18n\pt\interface.js" />
+    <Content Include="Scripts\i18n\ro\countries.js" />
+    <Content Include="Scripts\i18n\ro\index.js" />
+    <Content Include="Scripts\i18n\ro\interface.js" />
+    <Content Include="Scripts\i18n\ru\countries.js" />
+    <Content Include="Scripts\i18n\ru\index.js" />
+    <Content Include="Scripts\i18n\ru\interface.js" />
+    <Content Include="Scripts\i18n\sk\countries.js" />
+    <Content Include="Scripts\i18n\sk\index.js" />
+    <Content Include="Scripts\i18n\sk\interface.js" />
+    <Content Include="Scripts\i18n\sv\countries.js" />
+    <Content Include="Scripts\i18n\sv\index.js" />
+    <Content Include="Scripts\i18n\sv\interface.js" />
+    <Content Include="Scripts\i18n\te\countries.js" />
+    <Content Include="Scripts\i18n\te\index.js" />
+    <Content Include="Scripts\i18n\te\interface.js" />
+    <Content Include="Scripts\i18n\th\countries.js" />
+    <Content Include="Scripts\i18n\th\index.js" />
+    <Content Include="Scripts\i18n\th\interface.js" />
+    <Content Include="Scripts\i18n\tr\countries.js" />
+    <Content Include="Scripts\i18n\tr\index.js" />
+    <Content Include="Scripts\i18n\tr\interface.js" />
+    <Content Include="Scripts\i18n\ur\countries.js" />
+    <Content Include="Scripts\i18n\ur\index.js" />
+    <Content Include="Scripts\i18n\ur\interface.js" />
+    <Content Include="Scripts\i18n\vi\countries.js" />
+    <Content Include="Scripts\i18n\vi\index.js" />
+    <Content Include="Scripts\i18n\vi\interface.js" />
+    <Content Include="Scripts\i18n\zh\countries.js" />
+    <Content Include="Scripts\i18n\zh\index.js" />
+    <Content Include="Scripts\i18n\zh\interface.js" />
+    <Content Include="Scripts\index.js" />
+    <Content Include="Scripts\Auth\Register.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\intlTelInputWithUtils.min.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ar\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ar\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ar\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\bg\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\bg\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\bg\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\bn\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\bn\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\bn\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\bs\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\bs\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\bs\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ca\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ca\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ca\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\cs\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\cs\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\cs\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\de\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\de\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\de\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\el\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\el\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\el\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\en\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\en\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\en\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\es\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\es\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\es\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\fa\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\fa\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\fa\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\fi\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\fi\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\fi\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\fr\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\fr\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\fr\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\hi\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\hi\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\hi\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\hr\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\hr\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\hr\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\hu\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\hu\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\hu\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\id\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\id\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\id\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\it\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\it\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\it\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ja\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ja\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ja\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ko\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ko\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ko\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\mr\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\mr\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\mr\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\nl\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\nl\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\nl\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\no\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\no\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\no\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\pl\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\pl\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\pl\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\pt\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\pt\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\pt\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ro\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ro\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ro\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ru\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ru\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ru\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\sk\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\sk\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\sk\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\sv\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\sv\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\sv\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\te\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\te\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\te\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\th\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\th\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\th\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\tr\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\tr\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\tr\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ur\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ur\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\ur\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\vi\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\vi\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\vi\interface.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\zh\countries.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\zh\index.js" />
+    <Content Include="Scripts\IntlTelInput\i18n\zh\interface.js" />
+    <Content Include="Scripts\IntlTelInput\Intelinput.js" />
+    <Content Include="Scripts\IntlTelInput\intlTelInputWithUtils.min.js" />
+    <Content Include="Scripts\jquery-3.7.1.js" />
+    <Content Include="Scripts\jquery-3.7.1.min.js" />
+    <Content Include="Scripts\jquery-3.7.1.slim.js" />
+    <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.7.1.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\User\ChangePassword.js" />
+    <Content Include="Scripts\User\Dashboard.js" />
+    <Content Include="Scripts\User\Listing.js" />
+    <Content Include="Scripts\User\Profile.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Error\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Auth\Register.cshtml" />
+    <Content Include="Views\Error\ServerError.cshtml" />
+    <Content Include="Views\Shared\_BsAlert.cshtml" />
+    <Content Include="Views\Auth\Login.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\User\UserProfile.cshtml" />
+    <Content Include="Views\Admin\Setting.cshtml" />
+    <Content Include="Views\User\Listing.cshtml" />
+    <Content Include="Views\Book\Index.cshtml" />
+    <Content Include="Views\Book\Create.cshtml" />
+    <Content Include="Views\Book\_CreateBook.cshtml" />
+    <Content Include="Views\Book\_ListBook.cshtml" />
+    <Content Include="Views\Book\Details.cshtml" />
+    <Content Include="Views\Book\_BrowseBook.cshtml" />
+    <Content Include="Views\User\Dashboard.cshtml" />
+    <Content Include="Views\User\_DashBoardTable.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Content\TempFiles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>56058</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44329/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

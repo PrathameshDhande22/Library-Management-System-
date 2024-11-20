@@ -1,0 +1,215 @@
+﻿@model MVC_Task.Models.ViewModels.BookDetailsViewModel
+
+@{
+    if (Model.Book != null)
+    {
+
+        ViewBag.Title = Model.Book.Title;
+    }
+    else
+    {
+        ViewBag.Title = "Details";
+    }
+
+    string actionname = ViewContext.RouteData.Values["action"].ToString();
+}
+
+<h2>
+    <span class="glyphicon glyphicon-book padding-right-8 font-28 text-success"></span>
+    Book Details
+</h2>
+
+
+@if (Model.Book == null)
+{
+    <div class=" text-center padding-bottom-10">
+        <span class="glyphicon glyphicon-remove font-34 text-danger"></span>
+        <h1 class="text-center text-danger font-34 padding-top-10">These Book no Longer Exists !</h1>
+        <a class="" href="@Url.Action("Index", "Book")"><span class="glyphicon glyphicon-chevron-left"></span>  Back to Listing</a>
+    </div>
+}
+else
+{
+    <div>
+        <hr />
+        <a role="button" class="btn btn-default" href="@(Request.UrlReferrer != null ? Request.UrlReferrer.AbsoluteUri.ToString() : Url.Action("Index", "Book"))"><span class="glyphicon glyphicon-chevron-left"></span>  Back</a>
+        <div class="row margin-top-10">
+            <div class="col-xs-12 col-md-6 text-center padding-bottom-10">
+                <div class="image-details-wrapper">
+                    <img class="image-details-cover" src="@Url.Content(Model.Book.CoverImage)" alt="@Model.Book.Title Image">
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <h3 class="text-primary font-bold cols margin-top-0">@Model.Book.Title</h3>
+                <div class="font-16 padding-top-10">
+                    <span class="font-bold">@Html.DisplayNameFor(model => model.Book.AuthorName) : </span>
+                    <span>@Html.DisplayFor(model => model.Book.AuthorName)</span>
+                </div>
+                <div class="padding-top-10 font-16">
+                    <span class="font-bold">@Html.DisplayNameFor(model => model.Book.Isbn) :</span>
+                    <span>@Html.DisplayFor(model => model.Book.Isbn)</span>
+                </div>
+                <div class="padding-top-10 font-16">
+                    <span class="font-bold">@Html.DisplayNameFor(model => model.Book.PublicationYear) : </span>
+                    <span>@Html.DisplayFor(model => model.Book.PublicationYear)</span>
+                </div>
+                <div class="padding-top-10 font-16">
+                    <span class="font-bold">@Html.DisplayNameFor(model => model.Book.Category.CategoryName) :</span>
+                    <span class="label label-primary ">@Html.DisplayFor(model => model.Book.Category.CategoryName)</span>
+                </div>
+                @if (Model.Book.IsDeleted)
+                {
+                    <div class="bg-danger text-danger font-bold text-center font-28 margin-top-20 " style="padding:10px;">
+                        Deleted
+                    </div>
+                }
+                else
+                {
+                    <div class="font-16 padding-top-10">
+                        <span class="font-bold">@Html.DisplayNameFor(model => model.Book.AvailableQty): </span>
+                        <span class="text-success font-bold">@Html.DisplayFor(model => model.Book.AvailableQty)</span>
+                    </div>
+                    if (User.IsInRole("User"))
+                    {
+                        if (String.IsNullOrEmpty(Model.Issue.Status) || Model.Issue.IssueStatus != IssueStatus.Issued)
+                        {
+                            <div class="font-16 padding-top-10">
+                                <span class="font-bold">@Html.DisplayNameFor(model => model.Issue.ComputedDueDate): </span>
+                                <span class="">@Html.DisplayFor(model => model.Issue.ComputedDueDate)</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="font-16 padding-top-10">
+                                <span class="font-bold">@Html.DisplayNameFor(model => model.Issue.DueDate): </span>
+                                <span class="">@Html.DisplayFor(model => model.Issue.DueDate)</span>
+                            </div>
+                            <div class="font-16 padding-top-10">
+                                <span class="font-bold">@Html.DisplayNameFor(model => model.Issue.IssueDate): </span>
+                                <span class="">@Html.DisplayFor(model => model.Issue.IssueDate)</span>
+                            </div>
+                        }
+                    }
+
+                    if (User.IsInRole("Admin") || User.IsInRole("Librarian"))
+                    {
+                        <div class="font-16 padding-top-10">
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.Book.OriginalQty): </span>
+                            <span class="text-success font-bold">@Html.DisplayFor(model => model.Book.OriginalQty)</span>
+                        </div>
+
+                        if (Model.Book.AvailableQty <= 0)
+                        {
+                            <div class="font-16 padding-top-10 bg-danger text-center">
+                                <span class=" font-bold">Out of Stock</span>
+                            </div>
+                        }
+                    }
+
+                    <div class="margin-top-20 font-16">
+                        @if (String.IsNullOrEmpty(Model.Issue.Status))
+                        {
+
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.Issue.LibrarySetting.DailyFineAmount): </span>
+                            <span class="font-bold text-danger">₹ @Html.DisplayFor(model => model.Issue.LibrarySetting.DailyFineAmount)/Day</span>
+                        }
+                        else if (Model.Issue.IssueStatus == IssueStatus.Issued)
+                        {
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.Issue.DailyFineAmount): </span>
+                            <span class="font-bold text-danger">₹ @Html.DisplayFor(model => model.Issue.DailyFineAmount)/Day</span>
+                        }
+                        <span class="text-danger d-block font-12">If Failed to Return Book Before the Due Date then Fine will be Imposed Based on Per Day Basis.</span>
+                    </div>
+
+                    if (Model.Issue.PassedDays >= 0 && Model.Issue.ComputedFineAmount != 0)
+                    {
+                        <div class="font-16 padding-top-10">
+                            <span class="font-bold">Fine To Be Paid : </span>
+                            <span class="text-danger font-bold">₹ @Html.DisplayFor(model => model.Issue.ComputedFineAmount)</span>
+                        </div>
+                        <div class="font-16 padding-top-10">
+                            <span class="font-bold">Days Passed : </span>
+                            <span class="font-bold">@Html.DisplayFor(model => model.Issue.PassedDays)</span>
+                        </div>
+                    }
+                    else if (Model.Issue.ReturnDays >= 0 && !String.IsNullOrEmpty(Model.Issue.Status))
+                    {
+                        <div class="font-16 padding-top-10">
+                            <span class="font-bold">Return Book in  : </span>
+                            <span class="font-bold text-success">@Html.DisplayFor(model => model.Issue.ReturnDays) Days</span>
+                        </div>
+                    }
+
+
+                    if (User.IsInRole("User"))
+                    {
+                        <div class="margin-top-20">
+                            @if (String.IsNullOrEmpty(Model.Issue.Status))
+                            {
+                                if (Model.Book.AvailableQty <= 0)
+                                {
+                                    <button class="btn btn-warning btn-block" style="cursor:not-allowed;" disabled>
+                                        <span class="glyphicon glyphicon-ban-circle padding-right-8"></span> Out of Stock
+                                    </button>
+                                }
+                                else
+                                {
+                                    using (Html.BeginForm("IssueBook", "Book", new { id = Model.Book.BookId }, FormMethod.Post))
+                                    {
+                                        <button class="btn btn-success btn-block" type="submit" name="id" value="@Model.Book.BookId">
+                                            <span class="glyphicon glyphicon-bookmark padding-right-8"></span> Issue
+                                        </button>
+                                    }
+                                }
+                            }
+                            else if (Model.Issue.IssueStatus == IssueStatus.Issued)
+                            {
+                                using (Html.BeginForm("ReturnBook", "Book", new { id = Model.Book.BookId }, FormMethod.Post, new { @id = "return-book-form" }))
+                                {
+
+                                    <button type="@(Model.Issue.PassedDays>0?"button":"submit")" class="btn btn-danger btn-block return-book-btn">
+                                        <span class="glyphicon glyphicon-send padding-right-8"></span> Return
+                                    </button>
+                                }
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    if (Model.Issue.PassedDays > 0)
+    {
+        <div class="modal fade payment-model" id="Modal-Payment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header success-modal-color">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="book-modal-label">Payment Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="font-16">
+                            <p>
+                                Your book's due date has passed. To complete the return process, please pay the fine to Issue other Book.
+                            </p>
+                            <div>
+                                <span class="font-bold">Days Passed : </span>
+                                <span>@Html.DisplayFor(model => model.Issue.PassedDays) Days</span>
+                            </div>
+                            <div>
+                                <span class="font-bold">Fine Amount To be Paid : </span>
+                                <span class="font-bold text-danger">₹ @Html.DisplayFor(model => model.Issue.ComputedFineAmount)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success modal-yes-btn">Pay Fine</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+

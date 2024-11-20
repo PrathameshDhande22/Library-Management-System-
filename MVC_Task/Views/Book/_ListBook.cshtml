@@ -1,0 +1,208 @@
+﻿@model IEnumerable<MVC_Task.Models.Books>
+@{
+    int pageno = Convert.ToInt32(Request.QueryString["pageno"]);
+
+    List<SelectListItem> sortings = new List<SelectListItem>()
+{
+        new SelectListItem(){Text="A to Z",Value=1.ToString()},
+        new SelectListItem(){Text="Z to A",Value=2.ToString()},
+        new SelectListItem(){Text="Newest",Value=3.ToString()},
+        new SelectListItem(){Text="Oldest",Value=4.ToString()},
+        new SelectListItem(){Text="Publication Year Newest",Value=5.ToString()},
+        new SelectListItem(){Text="Publication Year Oldest",Value=6.ToString()}
+    };
+
+    int categoryby = 0;
+    int sort = 0;
+    string name = "";
+
+    int.TryParse(Request.QueryString["sort"], out sort);
+    int.TryParse(Request.QueryString["categoryby"], out categoryby);
+    if (Request.QueryString["name"] != null)
+    {
+        name = Request.QueryString["name"].ToString();
+    }
+}
+<hr class="border-bottom" />
+
+<h2>
+    <span class="glyphicon glyphicon-th-list font-28 padding-right-4"></span>
+    List Books
+</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "book-filter-form margin-top-10" }))
+{
+    <span class="font-bold"><span class="glyphicon glyphicon-filter padding-right-4"></span> Filters : </span>
+    <div class="d-flex align-item-end select-none">
+        <div class="input-group">
+            <div class="input-group-addon">
+                <span>Category</span>
+            </div>
+            @Html.DropDownList("categoryby", (IEnumerable<SelectListItem>)ViewBag.Category, "All", new { @class = "category-filter form-control" })
+        </div>
+        <div class="input-group">
+            <div class="input-group-addon">
+                <span>Sort</span>
+            </div>
+            @Html.DropDownList("sort", sortings, "Sort By", new { @class = "form-control" })
+        </div>
+        <div class="input-group">
+            <div class="input-group-addon">
+                <span><span class="glyphicon glyphicon-search padding-right-4"></span> Author Name</span>
+            </div>
+            @Html.TextBox("name", "", new { @class = "form-control" })
+        </div>
+        <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-filter padding-right-4"></span>Apply Filters</button>
+        @Html.ActionLink("Clear Filters", "Create", "Book", new { id = (object)null }, new { role = "button", @class = "btn btn-default" })
+    </div>
+}
+
+<table class="table table-responsive table-bordered table-hover margin-top-10">
+    <thead>
+        <tr class="dark">
+            <th>
+                @Html.DisplayNameFor(model => model.BookId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoverImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                Details
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.Count() == 0)
+        {
+            <tr class="danger">
+                <td colspan="8" class="text-center font-bold">
+                    No Books Available
+                </td>
+            </tr>
+        }
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookId)
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "Book", new {id=item.BookId})">
+                        <div class="image-listing image-preview">
+                            @if (String.IsNullOrWhiteSpace(item.CoverImage))
+                            {
+                                <div class="text-center text-danger">
+                                    <span class="d-block font-34 glyphicon glyphicon-remove">
+                                    </span>
+                                    <span class="text-center text-danger d-block font-bold">No Image Available</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <img src="@Url.Content(item.CoverImage)" alt="@(item.Title) Image" class="img-thumbnail img-responsive img-cover" />
+                            }
+                        </div>
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <div class="details-row">
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.AuthorName): </span>
+                            <span>@item.AuthorName</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.Isbn): </span>
+                            <span>@item.Isbn</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.PublicationYear): </span>
+                            <span>@item.PublicationYear</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.OriginalQty): </span>
+                            <span class="text-primary font-bold">@item.OriginalQty</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.AvailableQty): </span>
+                            <span class="text-success font-bold">@item.AvailableQty</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">@Html.DisplayNameFor(model => model.Category.CategoryName): </span>
+                            <span class="label label-primary">@item.Category.CategoryName</span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Create", "Book", new { id = item.BookId }, new { @class = "btn btn-primary btn-sm edit-btn", title = "Edit" })
+                    <button type="button" class="btn btn-danger btn-sm delete-btn" data-userid="@item.BookId" data-username="@item.Title" title="Delete">Delete  <span class="glyphicon glyphicon-trash"></span></button>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+<strong>Total Records : @ViewData["records"].ToString()</strong>
+@if (ViewBag.TotalPages != 1 && Model.Count() != 0)
+{
+    <nav class="d-flex center-horizontally">
+        <ul class="pagination">
+            <li class="@(pageno <= 1 ? "disabled" : null)">
+                @if (pageno <= 1)
+                {
+                    <span class="select-none">Prev</span>
+                }
+                else
+                {
+                    @Html.ActionLink("Prev", "Create", "Book", new { pageno = pageno <= 1 ? 0 : pageno - 1, categoryby = categoryby, sort = sort, name = name }, new { })
+                }
+            </li>
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="@(pageno == i || i == 1 && pageno == 0 ? "active" : null)">
+                    @Html.ActionLink(i.ToString(), "Create", "Book", new { pageno = i, categoryby = categoryby, sort = sort, name = name }, new { })
+                </li>
+            }
+            <li class="@(pageno >= ViewBag.TotalPages ? "disabled" : null)">
+                @if (pageno >= ViewBag.TotalPages)
+                {
+                    <span class="select-none">Next</span>
+                }
+                else
+                {
+                    @Html.ActionLink("Next", "Create", "Book", new { pageno = pageno >= ViewBag.TotalPages ? ViewBag.TotalPage : pageno + 1, categoryby = categoryby, sort = sort, name = name }, new { })
+                }
+            </li>
+        </ul>
+    </nav>
+}
+
+
+<div class="modal fade book-listing-modal" id="BookModal" tabindex="-1" role="dialog" aria-labelledby="BookModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-bg-error">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="BookModalLabel">Confirmation ?</h4>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete Book with <b>Id</b> as <span id="userid"></span> and <b>Title</b> as <span id="username"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success modal-yes-btn">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

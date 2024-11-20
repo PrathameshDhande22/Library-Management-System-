@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Library Management System</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    @Html.Partial("_Header")
+    <main>
+        <div class="container body-content">
+            @if (TempData.ContainsKey("Message") || ViewData.ContainsKey("Message"))
+            {
+                @Html.Partial("_BsAlert")
+            }
+            @RenderBody()
+            <hr class="border-bottom" />
+        </div>
+    </main>
+    <footer class="text-center container body-content padding-bottom-10">
+        <p>&copy; @DateTime.Now.Year - Library Management System</p>
+        <strong class="">Rights Reserved</strong>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/functions")
+    @Scripts.Render("~/bundles/jsfiles")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

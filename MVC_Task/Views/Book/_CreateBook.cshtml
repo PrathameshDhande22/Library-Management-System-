@@ -1,0 +1,193 @@
+﻿@model MVC_Task.Models.Books
+
+@{
+    bool toUpdate = Convert.ToBoolean(Session["toupdate"]?.ToString() ?? "false");
+
+    List<SelectListItem> publicationyear = Utilities.GetPublicationYear();
+}
+
+<h2>
+    <span class="glyphicon glyphicon-book font-28 padding-right-4"></span>
+    @(toUpdate?"Edit Book":"Create / Add Book")
+</h2>
+
+<div class="creation-successful alert alert-success alert-dismissable" style="display:none;" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <span>Category Created Successfully</span>
+</div>
+<div class="creation-error alert alert-danger alert-dismissable" style="display:none;" role="alert">
+    <span class="error-msg"></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "book-form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <span class="pull-right margin-top-10"><i class="text-danger">*</i> Fields are Required</span>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @if (toUpdate)
+        {
+            @Html.HiddenFor(model => model.BookId)
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Isbn, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Isbn, new { @class = "form-control", @placeholder = "0-306-40615-2" })
+                @Html.ValidationMessageFor(model => model.Isbn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AuthorName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AuthorName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AuthorName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CoverImageFile, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="form-control-static">
+                    @Html.TextBoxFor(model => model.CoverImageFile, new { @type = "file", accept = "image/png, image/jpeg ,image/jpg", id = "CoverImageFile", @class = "form-control", data_val = !toUpdate ? "true" : "false" })
+                    @Html.ValidationMessageFor(model => model.CoverImageFile, "", new { @class = "text-danger" })
+                </div>
+                <div class="image-preview imageshow">
+                    @if (!String.IsNullOrWhiteSpace(Model.CoverImage))
+                    {
+                        <div class="coverimageshow">
+                            @Html.HiddenFor(model => model.CoverImage)
+                            <span class="d-block font-bold">Uploaded Image Preview : </span>
+                            <img src="@Url.Content(Model.CoverImage)" alt="@Model.Title image" />
+                        </div>
+                    }
+                    else if (!String.IsNullOrWhiteSpace(Model.TempImageURL))
+                    {
+                        <div class="tempimageshow">
+                            @Html.HiddenFor(model => model.TempImageURL)
+                            <span class="d-block font-bold">Previously Uploaded File</span>
+                            <img src="@Url.Content(Model.TempImageURL)" alt="@Model.Title" class="" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Category.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.Category.CategoryId, Model.CategoryList, "Select Category", new { @class = "form-control category-dropdown", size = 4, data_selected = Model.Category == null ? null : Model.Category.CategoryId.ToString() })
+                @Html.ValidationMessageFor(model => model.Category.CategoryId, "", new { @class = "text-danger category-error-msg" })
+
+            </div>
+            <div class="padding-top-2 col-md-4 col-xs-6">
+                <span class="font-bold d-block">If Category is Not Present Click on ADD</span>
+                <button type="button" class="btn btn-primary category-add-btn btn-block btn-sm">
+                    <span class="glyphicon glyphicon-plus padding-right-4"></span>
+                    ADD New Category
+                </button>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PublicationYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.PublicationYear,publicationyear,"Select Year",  new { @class = "form-control publication-year-picker", @id = "publication-selector" } )
+                @Html.ValidationMessageFor(model => model.PublicationYear, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        @if (toUpdate)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.AvailableQty, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="input-group quantity-btns">
+                        <span class="input-group-btn">
+                            <button class="glyphicon glyphicon-minus btn btn-default btn-decrement-quantity" type="button"></button>
+                        </span>
+                        @Html.TextBoxFor(model => model.AvailableQty, new { @class = "form-control", @id = "quantity-book", @type = "number", @min = 0 })
+                        <span class="input-group-btn">
+                            <button class="glyphicon glyphicon-plus btn-increment-quantity btn btn-default" type="button"></button>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.AvailableQty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        else
+        {
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.OriginalQty, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="input-group quantity-btns">
+                        <span class="input-group-btn">
+                            <button class="glyphicon glyphicon-minus btn btn-default btn-decrement-quantity" type="button"></button>
+                        </span>
+                        @Html.TextBoxFor(model => model.OriginalQty, new { @class = "form-control", @id = "quantity-book", @type = "number", @min = toUpdate ? Model.OriginalQty : 0 })
+                        <span class="input-group-btn">
+                            <button class="glyphicon glyphicon-plus btn-increment-quantity btn btn-default" type="button"></button>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.OriginalQty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+
+                <input type="submit" value="@(toUpdate?"Update":"Save")" class="btn btn-success btn-add-update" />
+                @if (toUpdate)
+                {
+                    @Html.ActionLink("Back To List", "Create", "Book", new { id = 0 }, new { @class = "btn btn-default", role = "button" })
+                }
+                else
+                {
+                    <input type="reset" value="Reset" class="btn btn-default reset-btn" />
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<div class="modal fade book-modal" id="modal-display" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header success-modal-color">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="book-modal-label">Create Category </h4>
+            </div>
+            <div class="modal-body">
+                <div class="category-creation">
+                    <span class="d-block padding-left-right-15">Enter the Category name in the Input Box and click on Add button</span>
+                    <div class="clearfix padding-top-2">
+                        <label class="control-label col-sm-4 col-xs-12">Category : </label>
+                        <input type="text" placeholder="Category" id="category-name" class="form-control col-sm-6 col-xs-12" />
+                    </div>
+                    <span class="category-name-error d-block col-xs-offset-0 col-sm-offset-4"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success modal-yes-btn">Add</button>
+                <button type="button" class="btn btn-default btn-modal-close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
