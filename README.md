@@ -53,7 +53,7 @@ A comprehensive web-based application developed using .NET Framework 4.8 and MVC
 
 1. Creating the Database or Running the Scripts:
     - Make sure you have installed the Microsoft SQL Server Database. 
-    - Just run the Script Present in file `SQLScripts/Creation_Scripts`
+    - Just run the Script Present in file `SQLScripts/Creation_Scripts.sql`
 
 2. Open the Project which is `MVC_Task` on Microsoft Visual Studio or any IDE. 
 

@@ -968,7 +968,7 @@ go
 
 insert into Users(username,password,firstname,lastname,gender,email,address,pincode,state,city,phoneno) 
 values 
-('admin','admin@123','Prathamesh','Dhande','Male','admin123@gmail.com','Boisar',202332,'Maharashtra','Boisar','9970205298')
+('admin','admin@123','Prathamesh','Dhande','Male','admin123@gmail.com','Boisar',202332,'Maharashtra','Boisar','997022298')
 go
 
 /* Insert Data in Roles */
